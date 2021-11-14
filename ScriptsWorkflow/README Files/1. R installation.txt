@@ -1,0 +1,9 @@
+Installation in Windows machine:
+
+1. Download and install R: https://cran.r-project.org/bin/windows/base/
+
+2. Download and install Rstudio IDE : https://www.rstudio.com/products/rstudio/download/#download
+	
+
+	
+	

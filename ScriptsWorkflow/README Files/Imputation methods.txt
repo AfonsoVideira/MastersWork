@@ -1,0 +1,74 @@
+Description:
+The impute method performs data imputation on an MSnSet instance using a variety of methods (see below).
+The imputation and the parameters are logged into the processingData(object) slot.
+
+Users should proceed with care when imputing data and take precautions to assure that the imputation produce valid results,
+in particular with naive imputations such as replacing missing values with 0.
+
+Details:
+There are two types of mechanisms resulting in missing values in LC/MSMS experiments.
+
+-> Missing values resulting from absence of detection of a feature, despite ions being present at detectable concentrations. 
+   For example in the case of ion suppression or as a result from the stochastic, data-dependent nature of the MS acquisition method. 
+   These missing value are expected to be randomly distributed in the data and are defined as missing at random (MAR) or missing completely at random (MCAR).
+
+-> Biologically relevant missing values resulting from the absence of the low abundance of ions (below the limit of detection of the instrument). 
+   These missing values are not expected to be randomly distributed in the data and are defined as missing not at random (MNAR).
+
+MNAR features should ideally be imputed with a left-censor method, such as QRILC below. Conversely, 
+it is recommended to use host deck methods such nearest neighbours, 
+Bayesian missing value imputation or maximum likelihood methods when values are missing at random.
+
+Currently, the following imputation methods are available:
+
+MLE
+Maximum likelihood-based imputation method using the EM algorithm. Implemented in the norm::imp.norm function. See imp.norm for details and additional parameters.
+
+bpca
+Bayesian missing value imputation are available, as implemented in the and pcaMethods::pca functions. See pca for details and additional parameters.
+
+knn
+Nearest neighbour averaging, as implemented in the impute::impute.knn function. See impute.knn for details and additional parameters.
+
+QRILC
+A missing data imputation method that performs the imputation of left-censored missing data using random draws from a truncated distribution with parameters estimated using
+ quantile regression. Implemented in the imputeLCMD::impute.QRILC function. See impute.QRILC for details and additional parameters.
+
+MinDet
+Performs the imputation of left-censored missing data using a deterministic minimal value approach. Considering a expression data with n samples and p features, 
+for each sample, the missing entries are replaced with a minimal value observed in that sample. 
+The minimal value observed is estimated as being the q-th quantile (default q = 0.01) of the observed values in that sample. 
+Implemented in the imputeLCMD::impute.MinDet function. See impute.MinDet for details and additional parameters.
+
+MinProb
+Performs the imputation of left-censored missing data by random draws from a Gaussian distribution centred to a minimal value. 
+Considering an expression data matrix with n samples and p features, for each sample, the mean value of the Gaussian distribution is set to a minimal observed value in that sample. 
+The minimal value observed is estimated as being the q-th quantile (default q = 0.01) of the observed values in that sample. 
+The standard deviation is estimated as the median of the feature standard deviations. Note that when estimating the standard deviation of the Gaussian distribution, 
+only the peptides/proteins which present more than 50% recorded values are considered. Implemented in the imputeLCMD::impute.MinProb function. 
+See impute.MinProb for details and additional parameters.
+
+min
+Replaces the missing values by the smallest non-missing value in the data.
+
+zero
+Replaces the missing values by 0.
+
+none
+No imputation is performed and the missing values are left untouched. 
+Implemented in case one wants to only impute value missing at random or not at random with the mixed method.
+
+More Details:
+https://rdrr.io/bioc/MSnbase/man/impute-methods.html
+
+Author(s)
+Laurent Gatto and Samuel Wieczorek
+
+References
+Olga Troyanskaya, Michael Cantor, Gavin Sherlock, Pat Brown, Trevor Hastie, Robert Tibshirani, David Botstein and Russ B. Altman, Missing value estimation methods for DNA microarrays Bioinformatics (2001) 17 (6): 520-525.
+
+Oba et al., A Bayesian missing value estimation method for gene expression profile data, Bioinformatics (2003) 19 (16): 2088-2096.
+
+Cosmin Lazar (2015). imputeLCMD: A collection of methods for left-censored missing data imputation. R package version 2.0. http://CRAN.R-project.org/package=imputeLCMD.
+
+Lazar C, Gatto L, Ferro M, Bruley C, Burger T. Accounting for the Multiple Natures of Missing Values in Label-Free Quantitative Proteomics Data Sets to Compare Imputation Strategies. J Proteome Res. 2016 Apr 1;15(4):1116-25. doi: 10.1021/acs.jproteome.5b00981. PubMed PMID: 26906401.

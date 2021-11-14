@@ -1,0 +1,19 @@
+1. Copy the protein groups file from MaxQuant (version 1.6.17.0) output and place it in the directory containing the script RunMe.R and change its name to proteinGroups.txt;
+
+2. Open an Rsutido session inside the directory containing the script RunMe.R;
+
+3. Inside Rstudio go to file, open file, and open the files: 
+RunMe.R
+libraries_and_source.R;
+
+4. Go to libraries_and_source tab and click on source to load the required packages;
+
+5. Go to the RunMe tab and click on source to run the script workflow and analyse the proteinGroups table;
+
+Remark 1: The user will be prompted to input the experimental design given to MaxQuant and change parameters regarding the analysis,
+	 carefully read the console helper before entering anything and proceeding with the workflow.
+
+Remark 2: The user can navigate between appearing tabs along the analysis sequence, 
+	  can download plots using the Rstudio Export button and when the analysis finishes 
+	  the contrast tables with the significant results are exported to the directory outTables.
+
